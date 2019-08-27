@@ -1,0 +1,64 @@
+### 教程
+
+ASP.NET Core 入门 | Microsoft Docs
+
+> https://docs.microsoft.com/zh-cn/aspnet/core/getting-started/?view=aspnetcore-2.1&tabs=windows
+
+### 步骤
+
+创建 Web 应用项目
+
+打开命令行界面，然后输入以下命令：
+
+> console
+
+
+> dotnet new webapp -o aspnetcoreapp
+
+信任开发证书
+
+信任 HTTPS 开发证书：
+
+Windows macOS Linux
+
+> dotnet dev-certs https --trust
+
+以上命令会显示以下对话：
+
+安全警告对话
+
+如果你同意信任开发证书，请选择“是”。
+
+有关详细信息，请参阅信任 ASP.NET Core HTTPS 开发证书
+
+运行应用
+
+运行以下命令：
+
+> cd aspnetcoreapp
+
+> dotnet run
+
+在命令行界面指明应用已启动后，转到 https://localhost:5001。 单击“接受”，接受隐私和 cookie 政策 。 此应用不保留个人信息。
+
+编辑 Razor 页面
+
+打开 Pages/Index.cshtml ，并使用以下突出显示标记修改页面：
+
+CSHTML
+
+```
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Hello, world! The time on the server is @DateTime.Now</p>
+</div>
+
+```
+
+转到 https://localhost:5001，并验证更改是否显示。
