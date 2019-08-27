@@ -16,6 +16,7 @@ C# 和 Visual Studio Code 入门 - .NET Core | Microsoft Docs
 console 输出: 
 
 > dotnet new console --output sample1 
+
 > dotnet run --project sample1 
 
 您应看到以下输出： 
@@ -27,7 +28,8 @@ Hello World!
 ### 官方教程
 
 .NET Core 入门 | Microsoft Docs 
-https://docs.microsoft.com/zh-cn/dotnet/core/get-started?tabs=windows
+
+> https://docs.microsoft.com/zh-cn/dotnet/core/get-started?tabs=windows
 
 ### About Me
 
