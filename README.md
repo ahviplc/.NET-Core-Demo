@@ -22,7 +22,11 @@ console 输出:
 您应看到以下输出： 
 console 输出: 
 
-Hello World! 
+    ```
+    Hello World!
+    2
+    Hello World! Happy coding!
+    ```
 
 祝贺你！ 现已创建了一个简单的 .NET Core 应用程序。 还可以使用 Visual Studio Code、Visual Studio（仅限 Windows）或 Visual Studio for Mac（仅限 macOS）来创建 .NET Core 应用程序。 
 
