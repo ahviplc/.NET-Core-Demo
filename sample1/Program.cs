@@ -21,9 +21,13 @@ namespace sample1
 
             //加密
             Console.WriteLine(Encrypt("admin"));
+            //解密
             Console.WriteLine(Decrypt(md4j));
             // Encrypt("admin");
             // Decrypt(md4j);
+
+            //md5
+            Console.WriteLine(Md5Hash("admin"));
            
         }
 
