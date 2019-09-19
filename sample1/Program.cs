@@ -40,7 +40,6 @@ namespace sample1
             byte[] bytesTemp2 = DeCompress(bytesTemp);
             Console.WriteLine("输出解压的结果是:"); //输出解压的结果:
             Console.WriteLine(System.Text.Encoding.UTF8.GetString(bytesTemp2));
-
         }
 
 
@@ -65,7 +64,8 @@ namespace sample1
                 GZipOutputStream zipFile = new GZipOutputStream(ms);
                 zipFile.Write(byteInput, 0, input.Length);
                 zipFile.Close();
-                Console.WriteLine("压缩成功的数组转成16进制字符串为:" + ToHexString(ms.ToArray())); //1F8B0800D9BB835D00FF3334320600D263488803000000
+                Console.WriteLine("压缩成功的数组转成16进制字符串为:" +
+                                  ToHexString(ms.ToArray())); //1F8B0800D9BB835D00FF3334320600D263488803000000
                 // return ToHexString(ms.ToArray());
                 return ms.ToArray();
             }
@@ -118,8 +118,10 @@ namespace sample1
                 {
                     strB.Append(bytes[i].ToString("X2"));
                 }
+
                 hexString = strB.ToString();
             }
+
             return hexString;
         }
 
@@ -146,6 +148,7 @@ namespace sample1
             {
                 ret.AppendFormat("{0:X2}", b);
             }
+
             md4j = ret.ToString();
             return ret.ToString();
         }
@@ -166,8 +169,9 @@ namespace sample1
             for (x = 0; x < len; x++)
             {
                 i = Convert.ToInt32(Text.Substring(x * 2, 2), 16);
-                inputByteArray[x] = (byte)i;
+                inputByteArray[x] = (byte) i;
             }
+
             des.Key = ASCIIEncoding.ASCII.GetBytes(Md5Hash(sKey).Substring(0, 8));
             des.IV = ASCIIEncoding.ASCII.GetBytes(Md5Hash(sKey).Substring(0, 8));
             System.IO.MemoryStream ms = new System.IO.MemoryStream();
@@ -191,6 +195,7 @@ namespace sample1
             {
                 sBuilder.Append(data[i].ToString("x2"));
             }
+
             return sBuilder.ToString();
         }
     }
