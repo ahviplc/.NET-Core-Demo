@@ -20,7 +20,6 @@ namespace sample1
             Console.WriteLine($"Hello World! {c1.ReturnMessage()}");
             Console.WriteLine(2 + 2);
 
-
             //加密
             Console.WriteLine(Encrypt("admin"));
             //解密
@@ -34,7 +33,6 @@ namespace sample1
             //用GZip进行压缩和解压缩
             //在这里定义要压缩的字符
             string strNeedToCompress = "123456789";
-
             Console.WriteLine("此要要压缩的字符为：" + strNeedToCompress);
             byte[] bytesTemp = Compress(strNeedToCompress);
             //             string strTemp = "1F8B0800D9BB835D00FF3334320600D263488803000000";
@@ -68,11 +66,8 @@ namespace sample1
                 zipFile.Write(byteInput, 0, input.Length);
                 zipFile.Close();
                 Console.WriteLine("压缩成功的数组转成16进制字符串为:" + ToHexString(ms.ToArray())); //1F8B0800D9BB835D00FF3334320600D263488803000000
-                                                                                     //                return ToHexString(ms.ToArray());
+                // return ToHexString(ms.ToArray());
                 return ms.ToArray();
-            }
-
-            {
             }
         }
 
@@ -97,8 +92,9 @@ namespace sample1
                 }
 
                 //Console.WriteLine(ms1.ToArray()[0]); 49
-                //                Console.WriteLine(BitConverter.ToString(ms1.ToArray())); //31-32-33
-                //                Console.WriteLine(System.Text.Encoding.UTF8.GetString(ms1.ToArray()));
+                //Console.WriteLine(BitConverter.ToString(ms1.ToArray())); //31-32-33
+                //Console.WriteLine(System.Text.Encoding.UTF8.GetString(ms1.ToArray()));
+
                 ms1.Close();
                 return ms1.ToArray();
             }
@@ -113,24 +109,17 @@ namespace sample1
         //new byte[]{ 0x30, 0x31}转成"3031":
 
         public static string ToHexString(byte[] bytes) // 0xae00cf => "AE00CF "
-
         {
             string hexString = string.Empty;
-
             if (bytes != null)
-
             {
                 StringBuilder strB = new StringBuilder();
-
                 for (int i = 0; i < bytes.Length; i++)
-
                 {
                     strB.Append(bytes[i].ToString("X2"));
                 }
-
                 hexString = strB.ToString();
             }
-
             return hexString;
         }
 
