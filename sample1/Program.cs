@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using ICSharpCode.SharpZipLib.GZip;
 using sample1.pojo;
 
 namespace sample1
@@ -28,8 +30,110 @@ namespace sample1
 
             //md5
             Console.WriteLine(Md5Hash("admin"));
-           
+
+            //用GZip进行压缩和解压缩
+            //在这里定义要压缩的字符
+            string strNeedToCompress = "123456789";
+
+            Console.WriteLine("此要要压缩的字符为：" + strNeedToCompress);
+            byte[] bytesTemp = Compress(strNeedToCompress);
+            //             string strTemp = "1F8B0800D9BB835D00FF3334320600D263488803000000";
+            //             byte[] bytesTemp3 = System.Text.Encoding.ASCII.GetBytes(strTemp);
+            byte[] bytesTemp2 = DeCompress(bytesTemp);
+            Console.WriteLine("输出解压的结果是:"); //输出解压的结果:
+            Console.WriteLine(System.Text.Encoding.UTF8.GetString(bytesTemp2));
+
         }
+
+
+        /// <summary>
+        /// GZip压缩
+        /// </summary>
+        /// <param name="rawData"></param>
+        /// <returns></returns>
+        public static byte[] Compress(string input)
+        {
+            Byte[] byteInput = System.Text.Encoding.Default.GetBytes(input); //string类型转成byte[]：
+
+            //            MemoryStream ms = new MemoryStream();
+            //            GZipStream compressedzipStream = new GZipStream(ms, CompressionMode.Compress, true);
+            //            compressedzipStream.Write(byteInput, 0, input.Length);
+            //            compressedzipStream.Close();
+            //            Console.WriteLine(ToHexString(ms.ToArray()));
+            //            return ToHexString(ms.ToArray());//123 ---> 1F8B08000000000004003334320600D263488803000000
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                GZipOutputStream zipFile = new GZipOutputStream(ms);
+                zipFile.Write(byteInput, 0, input.Length);
+                zipFile.Close();
+                Console.WriteLine("压缩成功的数组转成16进制字符串为:" + ToHexString(ms.ToArray())); //1F8B0800D9BB835D00FF3334320600D263488803000000
+                                                                                     //                return ToHexString(ms.ToArray());
+                return ms.ToArray();
+            }
+
+            {
+            }
+        }
+
+        /// <summary>
+        /// GZip解压缩
+        /// </summary>
+        /// <param name="rawData"></param>
+        /// <returns></returns>
+        public static byte[] DeCompress(byte[] input)
+        {
+            int bufferSize = 2048;
+            try
+            {
+                MemoryStream ms = new MemoryStream(input);
+                MemoryStream ms1 = new MemoryStream();
+                GZipInputStream zipFile = new GZipInputStream(ms);
+                byte[] output = new byte[2048]; //指定缓冲区的大小
+                while (bufferSize > 0)
+                {
+                    bufferSize = zipFile.Read(output, 0, bufferSize);
+                    ms1.Write(output, 0, bufferSize);
+                }
+
+                //Console.WriteLine(ms1.ToArray()[0]); 49
+                //                Console.WriteLine(BitConverter.ToString(ms1.ToArray())); //31-32-33
+                //                Console.WriteLine(System.Text.Encoding.UTF8.GetString(ms1.ToArray()));
+                ms1.Close();
+                return ms1.ToArray();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        // byte[]转16进制格式string：
+
+        //new byte[]{ 0x30, 0x31}转成"3031":
+
+        public static string ToHexString(byte[] bytes) // 0xae00cf => "AE00CF "
+
+        {
+            string hexString = string.Empty;
+
+            if (bytes != null)
+
+            {
+                StringBuilder strB = new StringBuilder();
+
+                for (int i = 0; i < bytes.Length; i++)
+
+                {
+                    strB.Append(bytes[i].ToString("X2"));
+                }
+
+                hexString = strB.ToString();
+            }
+
+            return hexString;
+        }
+
 
         /// <summary>
         /// 加密
