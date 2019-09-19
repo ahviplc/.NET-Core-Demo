@@ -64,8 +64,7 @@ namespace sample1
                 GZipOutputStream zipFile = new GZipOutputStream(ms);
                 zipFile.Write(byteInput, 0, input.Length);
                 zipFile.Close();
-                Console.WriteLine("压缩成功的数组转成16进制字符串为:" +
-                                  ToHexString(ms.ToArray())); //1F8B0800D9BB835D00FF3334320600D263488803000000
+                Console.WriteLine("压缩成功的数组转成16进制字符串为:" + ToHexString(ms.ToArray())); //1F8B0800D9BB835D00FF3334320600D263488803000000
                 // return ToHexString(ms.ToArray());
                 return ms.ToArray();
             }
