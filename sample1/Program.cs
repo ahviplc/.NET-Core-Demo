@@ -2,6 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using ICSharpCode.SharpZipLib.GZip;
 using sample1.pojo;
 
@@ -20,9 +21,9 @@ namespace sample1
             Console.WriteLine($"Hello World! {c1.ReturnMessage()}");
             Console.WriteLine(2 + 2);
 
-            //加密
+            //DES加密
             Console.WriteLine(Encrypt("admin"));
-            //解密
+            //DES解密
             Console.WriteLine(Decrypt(md4j));
             // Encrypt("admin");
             // Decrypt(md4j);
@@ -35,11 +36,44 @@ namespace sample1
             string strNeedToCompress = "123456789";
             Console.WriteLine("此要要压缩的字符为：" + strNeedToCompress);
             byte[] bytesTemp = Compress(strNeedToCompress);
-            //             string strTemp = "1F8B0800D9BB835D00FF3334320600D263488803000000";
-            //             byte[] bytesTemp3 = System.Text.Encoding.ASCII.GetBytes(strTemp);
+            // string strTemp = "1F8B0800D9BB835D00FF3334320600D263488803000000";
+            // byte[] bytesTemp3 = System.Text.Encoding.ASCII.GetBytes(strTemp);
             byte[] bytesTemp2 = DeCompress(bytesTemp);
             Console.WriteLine("输出解压的结果是:"); //输出解压的结果:
             Console.WriteLine(System.Text.Encoding.UTF8.GetString(bytesTemp2));
+
+            //用GZip进行压缩解压缩和用AES加密解密 version2 2019-9-20 19:35:10
+            Console.WriteLine("---------------------压缩解压缩和加密解密的工具---------------------" + "\n");
+            //在这里定义要压缩的字符
+            string strNeedToCompress2 = "123";
+            Thread.Sleep(1000);
+            Console.WriteLine("此要要压缩的字符为：" + strNeedToCompress2);
+
+            byte[] bytesTemp22 = utils.utils.Compress(strNeedToCompress2);
+            string bytesToHexStringTemp = utils.utils.BytesToHexString(bytesTemp22); //压缩成功的数组转成16进制字符串
+            Console.WriteLine("压缩成功的数组转成16进制字符串为:" + bytesToHexStringTemp); //1F8B0800D9BB835D00FF3334320600D263488803000000
+
+            //将压缩成功的数组转成的16进制字符串转成byte数组
+            byte[] bytesFromHexStr = utils.utils.hexStrToHexByte(bytesToHexStringTemp);
+
+            byte[] bytesTemp23 = utils.utils.DeCompress(bytesFromHexStr);
+            Console.WriteLine("输出解压缩的结果是:"); //输出解压的结果:
+            Console.WriteLine(utils.utils.Byte2Str(bytesTemp23)); //按照UTF8的编码方式从byte[]得到字符串
+
+            //加密解密相关
+            //首先加密 123
+            string strAesTemp = utils.utils.StrAesEncrypt("0141190613225348414e474841495251", "0141190613225348414e474841495251");
+            Console.WriteLine("加密成功的16进制字符串:" + strAesTemp); //8A48B3C11CE0FDE42EDB21E9B5423493A0EFE774929EA55518E8C6F1E4D667E7434B9A4C10BD9E970E04BB447AC51E83
+
+            //解密 16进制字符串
+            //首先 将16进制字符串转成byte[]
+            byte[] bytesFromHexStrAes = utils.utils.hexStrToHexByte(strAesTemp);
+            byte[] byteKeyAes = utils.utils.Str2Byte("0141190613225348414e474841495251");
+            byte[] bytesOk = utils.utils.AesDecrypt(bytesFromHexStrAes, byteKeyAes);
+            string strOk = utils.utils.Byte2Str(bytesOk);
+            Console.WriteLine("解密的字符串为:" + strOk);
+
+            Console.WriteLine("------------------------------------------" + "\n");
         }
 
 
@@ -126,7 +160,7 @@ namespace sample1
 
 
         /// <summary>
-        /// 加密
+        /// DES加密
         /// </summary>
         /// <param name="Text">要加密的文本</param>
         /// <param name="sKey">秘钥</param>
@@ -153,7 +187,7 @@ namespace sample1
         }
 
         /// <summary>
-        /// 解密
+        /// DES解密
         /// </summary>
         /// <param name="Text"></param>
         /// <param name="sKey"></param>
